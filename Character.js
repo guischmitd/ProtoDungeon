@@ -16,13 +16,10 @@ class Character {
   }
 
   attack() {
-    console.log("hey I'm on master!");
-    //Let's see if I can merge it all!
     this.atkDice.rollSet();
   }
 
   defend() {
-    console.log("and it worked!");
     this.defDice.rollSet();
   }
 
