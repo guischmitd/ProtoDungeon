@@ -21,6 +21,7 @@ class Character {
   }
 
   defend() {
+    console.log("and it worked!");
     this.defDice.rollSet();
   }
 
