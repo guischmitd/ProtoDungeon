@@ -16,7 +16,7 @@ class Character {
   }
 
   attack() {
-    console.log("this is a test");
+    console.log("hey I'm on master!");
     this.atkDice.rollSet();
   }
 
