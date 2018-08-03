@@ -25,13 +25,13 @@ class DiceSet {
     stroke(230);
     translate(x, y);
     let gap = 12;
-    let size = 64;
+    let size = 50;
 
 
     for (let die of this.dice) {
       strokeWeight(2);
       stroke(230);
-      fill(0,0);
+      noFill();
       rect(0, 0, size, size);
 
 
