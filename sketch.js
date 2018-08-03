@@ -7,7 +7,7 @@ let players = [];
 
 function setup() {
 	createCanvas(windowWidth, windowHeight);
-	monsterNo = floor(random(1,6.999))
+	monsterNo = floor(random(1, 4.999))
 	for (let i = 0; i < monsterNo; i++) {
 		monsters[i] = new Character(1, "Goo", "Enemy", "Neutral");
 	}
@@ -15,7 +15,7 @@ function setup() {
 }
 
 function draw() {
-	background(51);
+	background(31);
 
 	// Monster amount text
 	textFont("courier new");
@@ -30,9 +30,9 @@ function draw() {
 	}
 
 	// Button
-	let button = createButton("Roll!");
-	button.position(230, 64);
-	button.mousePressed(diceroll);
+	let button = createButton("Fight!");
+	button.position(465, 50);
+	button.mousePressed(resolveCombat);
 
 	// DRAWING
 	let spacing = 20;
@@ -49,12 +49,19 @@ function draw() {
 
 }
 
-function diceroll() {
-	for (let monster of monsters) {
-		monster.attack();
-		monster.defend();
+function resolveCombat() {
+	if (monsters[0]) {
+		for (let monster of monsters) {
+			monster.roll();
+		}
+
+		players[0].roll();
+
+		players[0].fight(monsters[0]);
+		for (let i = monsters.length - 1; i >= 0; i--) {
+			if (!monsters[i].alive) {
+				monsters.splice(i, 1);
+			}
+		}
 	}
-	players[0].attack();
-	players[0].defend();
-	// partyDice.fight(monsterDice);
 }

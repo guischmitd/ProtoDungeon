@@ -3,18 +3,19 @@ class DiceSet {
     this.diceArray = _diceArray;
     this.dice = [];
     this.amount = _diceArray.length;
-
-    console.log("amount: " + this.amount)
+    this.sum = 0;
 
     for (let i = 0; i < this.amount; i++) {
       this.dice[i] = new Die(this.diceArray[i]);
-      console.log(this.dice);
     }
   }
 
   rollSet() {
+    this.sum = 0;
     for (let die of this.dice) {
       die.roll();
+      this.sum += die.value;
+      console.log(this.sum);
     }
     // this.die.sort(function(a, b){return b-a});
   }
@@ -27,6 +28,13 @@ class DiceSet {
     let gap = 12;
     let size = 50;
 
+    if (this.sum > 0) {
+      textAlign(LEFT, CENTER);
+      noStroke();
+      fill(230);
+      textSize(32);
+      text(this.sum, -size, size/2)
+    }
 
     for (let die of this.dice) {
       strokeWeight(2);
@@ -36,7 +44,7 @@ class DiceSet {
 
 
       if(die.value != null) {
-        strokeWeight(0);
+        noStroke();
         fill(230);
         textSize(32);
         textAlign(CENTER, CENTER);
@@ -49,25 +57,4 @@ class DiceSet {
     pop();
   }
 
-  fight(enemy) {
-    if (this.amount <= enemy.amount) {
-      for (let i = 0; i < this.amount; i++) {
-        if (this.die[i] > enemy.die[i]) {
-          enemy.dead[i] = true;
-        }
-        if (this.die[i] < enemy.die[i]) {
-          this.dead[i] = true;
-        }
-      }
-    } else {
-      for (let i = 0; i < enemy.amount; i++) {
-        if (this.die[i] > enemy.die[i]) {
-          enemy.dead[i] = true;
-        }
-        if (this.die[i] < enemy.die[i]) {
-          this.dead[i] = true;
-        }
-      }
-    }
-  }
 }
