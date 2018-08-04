@@ -3,7 +3,7 @@ let playerNo;
 
 let monsters = [];
 let players = [];
-let combat;
+let combatMngr;
 
 let playerTurn = true;
 let cnv;
@@ -15,7 +15,7 @@ function setup() {
 
 	monsterNo = 4;
 	playerNo = 4;
-	combat = new CharStack(playerNo, monsterNo);
+	combatMngr = new CombatManager(playerNo, monsterNo);
 }
 
 function draw() {
@@ -42,18 +42,18 @@ function draw() {
 	let spacing = 20;
 	let y0 = 80;
 
-	for (let i = 0; i < combat.players.length; i++) {
-		combat.players[i].draw(50, 80 + i * (combat.players[i].h + spacing));
+	for (let i = 0; i < combatMngr.players.length; i++) {
+		combatMngr.players[i].draw(50, 80 + i * (combatMngr.players[i].h + spacing));
 	}
 
-	for (let i = 0; i < combat.monsters.length; i++) {
-		combat.monsters[i].draw(500, 80 + i * (combat.monsters[i].h + spacing));
+	for (let i = 0; i < combatMngr.monsters.length; i++) {
+		combatMngr.monsters[i].draw(500, 80 + i * (combatMngr.monsters[i].h + spacing));
 	}
 
 }
 
 function mousePressed() {
-	combat.clicked();
+	combatMngr.clicked();
 }
 
 function oldCombat () {

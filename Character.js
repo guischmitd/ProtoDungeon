@@ -9,6 +9,7 @@ class Character {
 
     this.turn = false;
     this.selected = false;
+    
     // Drawing
     this.w = 420;
     this.h = 170;
