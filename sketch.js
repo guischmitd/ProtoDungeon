@@ -1,28 +1,25 @@
 let monsterNo;
 let playerNo;
 
-let attacker = [];
 let monsters = [];
 let players = [];
-let turn = 1;
+let combat;
 
 let playerTurn = true;
 let cnv;
 
 function setup() {
 	cnv = createCanvas(windowWidth, windowHeight);
-	monsterNo = floor(random(1, 4.999));
-	playerNo = monsterNo;
-	for (let i = 0; i < monsterNo; i++) {
-		monsters[i] = new Character(1, "Goo", "Enemy", "Neutral");
-	}
-	for (let i = 0; i < playerNo; i++) {
-		players[i] = new Character();
-	}
+	// playerNo = floor(random(1, 4.999));
+	// monsterNo = floor(random(1, 4.999));
+
+	monsterNo = 4;
+	playerNo = 4;
+	combat = new CharStack(playerNo, monsterNo);
 }
 
 function draw() {
-	background(31);
+	background(51);
 
 	// Monster amount text
 	textFont("courier new");
@@ -41,36 +38,22 @@ function draw() {
 	// button.position(465, 50);
 	// button.mousePressed(resolveCombat);
 
-	// DRAWING
+	//DRAWING
 	let spacing = 20;
 	let y0 = 80;
 
-	for (let i = 0; i < players.length; i++) {
-		players[i].draw(50, 80 + i * (players[i].h + spacing));
+	for (let i = 0; i < combat.players.length; i++) {
+		combat.players[i].draw(50, 80 + i * (combat.players[i].h + spacing));
 	}
 
-	for (let i = 0; i < monsters.length; i++) {
-		monsters[i].draw(500, 80 + i * (monsters[i].h + spacing));
+	for (let i = 0; i < combat.monsters.length; i++) {
+		combat.monsters[i].draw(500, 80 + i * (combat.monsters[i].h + spacing));
 	}
-
-	oldCombat();
 
 }
 
 function mousePressed() {
-	for (let monster of monsters) {
-		monster.clicked();
-	}
-
-	for (let player of players) {
-		player.clicked();
-	}
-}
-
-function combat(players, monsters) {
-	for (let i = 0; i < monsters.length + players.length - 1; i++) {
-		attacker[i] = players[0]
-	}
+	combat.clicked();
 }
 
 function oldCombat () {
