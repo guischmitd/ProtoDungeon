@@ -7,6 +7,8 @@ class Character {
     this.type = _type;
     this.status = null;
 
+    this.turn = false;
+    this.selected = false;
     // Drawing
     this.w = 420;
     this.h = 170;
@@ -15,12 +17,12 @@ class Character {
     if (this.tag == "Player") {
 
       if (this.job == "Warrior") {
-        this.atk = [4, 2, 2];
-        this.def = [6];
+        this.atk = [4, 4, 2];
+        this.def = [4];
         this.maxhp = 20 + (this.lvl - 1) * 2;
       }
 
-      this.hp = this.maxhp - 1;
+      this.hp = this.maxhp;
       this.atkDice = new DiceSet(this.atk);
       this.defDice = new DiceSet(this.def);
     }
@@ -29,8 +31,8 @@ class Character {
     if (this.tag == "Enemy") {
 
       if (this.job == "Goo") {
-        this.atk = [3];
-        this.def = [3];
+        this.atk = [6];
+        this.def = [2];
         this.maxhp = 8 + (this.lvl - 1) * 2;
       }
 
@@ -40,12 +42,11 @@ class Character {
     }
   }
 
-  roll() {
-    this.atkDice.rollSet();
-    this.defDice.rollSet();
-  }
 
   draw(x, y) {
+    this.x = x;
+    this.y = y;
+
     push();
     translate(x, y);
 
@@ -60,42 +61,75 @@ class Character {
     text("HP " + this.hp + "/" + this.maxhp, this.w - 10, this.h - 10);
 
 //Card Frame
-    strokeWeight(2);
-    stroke(230);
+    if (this.alive) {
+      stroke(230);
+    } else {
+      stroke(120);
+    }
+
+    if (this.turn) {
+      stroke(25, 230, 0);
+    }
+
     noFill();
-
-    // if(this.tag == "Enemy") {
-    //   stroke(200, 0, 0);
-    // }
-
     rectMode(CORNERS);
+
+    if(this.mouseOver()) {
+      strokeWeight(3);
+      rect(-5, -5, this.w + 5, this.h + 5);
+    }
+    strokeWeight(2);
     rect(0, 0, this.w, this.h);
 
 //Character ID
     textAlign(CENTER, TOP);
     textSize(16);
     noStroke();
-    fill(230);
+
+    if (this.alive) {
+      fill(230);
+    } else {
+      fill(120);
+    }
     text("Level " + this.lvl + " " + this.job, this.w / 2, 8);
 
 //Attack and def dice
-    this.atkDice.draw(80 , 35);
-    this.defDice.draw(80, 100);
+    if (this.alive) {
+      this.atkDice.draw(80 , 35);
+      this.defDice.draw(80, 100);
+    } else {
+      textSize(80);
+      textAlign(CENTER, CENTER)
+      text("DEAD", this.w/2, this.h/2)
+    }
     pop();
   }
 
-  fight(other) {
+  attack(other) {
+    this.atkDice.rollSet();
+    other.defDice.rollSet();
     if (this.atkDice.sum > other.defDice.sum) {
       other.hp -= this.atkDice.sum - other.defDice.sum;
       if (other.hp <= 0) {
+        other.hp = 0;
         other.alive = false;
       }
     }
-    if (other.atkDice.sum > this.defDice.sum) {
-      this.hp -= other.atkDice.sum - this.defDice.sum;
-      if (this.hp <= 0) {
-        this.alive = false;
-      }
+  }
+
+  mouseOver() {
+    if (mouseX > this.x && mouseX < this.x + this.w && mouseY > this.y && mouseY < this.y + this.h) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  clicked() {
+    if (this.mouseOver() && this.alive) {
+      this.selected = true;
+    } else {
+      this.selected = false;
     }
   }
 }

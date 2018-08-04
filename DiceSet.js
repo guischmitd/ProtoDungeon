@@ -15,7 +15,7 @@ class DiceSet {
     for (let die of this.dice) {
       die.roll();
       this.sum += die.value;
-      console.log(this.sum);
+      // console.log(this.sum);
     }
     // this.die.sort(function(a, b){return b-a});
   }
